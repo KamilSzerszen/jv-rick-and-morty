@@ -15,21 +15,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RickAndMortyServiceImpl implements RickAndMortyService {
 
+
     private final CharacterRepository repository;
     private final SpecificationProvider specificationProvider;
 
     @Override
     public Character randomCharacterGenerated() {
-        long recordCount = repository.count();
-
-        if (recordCount == 0) {
-            throw new EmptyLocalDatabaseException("Empty local database");
-        }
-
-        int randomIndex = new Random().nextInt((int)recordCount) + 1;
-        return repository.findById((long) randomIndex)
-                .orElseThrow(() -> new CharacterNotFoundException(
-                        "Not found Character with id " + randomIndex));
+        return repository.findRandom();
     }
 
     @Override
